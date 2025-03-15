@@ -1,0 +1,58 @@
+/* Print Link Styling */
+.wp-print-link-container {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.wp-print-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #f7f7f7;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.wp-print-link:hover {
+    background-color: #ebebeb;
+    color: #000;
+}
+
+.wp-print-link:before {
+    content: "🖨️ ";
+}
+
+/* Print Template Styling */
+body.wp-print-page {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.wp-print-page .entry-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.wp-print-page .entry-content {
+    font-size: 16px;
+}
+
+.wp-print-page .print-footer {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
+
+@media print {
+    .wp-print-page .print-controls {
+        display: none;
+    }
+}
