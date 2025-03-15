@@ -1,4 +1,4 @@
-# WP Print
+# Print Button
 
 A simple WordPress plugin that adds a "Print" link to the end of each post, which opens the post in a printer-friendly format.
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Print
+ * Plugin Name: Print Button
  * Plugin URI: https://example.com/wp-print
  * Description: Adds a "Print" link to the end of each post, which opens the post in a printer-friendly format.
  * Version: 1.0.0

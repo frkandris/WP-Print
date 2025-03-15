@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Print 1.0.0\n"
+"Project-Id-Version: Print Button 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-print\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Domain: wp-print\n"
 
 #. Plugin Name of the plugin
-msgid "WP Print"
+msgid "Print Button"
 msgstr ""
 
 #. Plugin URI of the plugin
