@@ -39,10 +39,11 @@ function print_button_settings_init() {
         'print_button_options',
         'print_button_settings',
         array(
-            'type' => 'array',
-            'description' => 'Print Button plugin settings',
+            'type'              => 'array',
+            'description'       => 'Print Button plugin settings',
             'sanitize_callback' => 'print_button_sanitize_settings',
-            'default' => array(
+            'show_in_rest'      => false,
+            'default'           => array(
                 'post_types' => array(
                     'post' => 1,
                     'page' => 1
@@ -143,13 +144,24 @@ function print_button_sanitize_settings($input) {
     $output = array();
     
     // Sanitize post types
-    if (isset($input['post_types'])) {
-        $post_types = get_post_types(array('public' => true), 'objects');
+    if (isset($input['post_types']) && is_array($input['post_types'])) {
+        $output['post_types'] = array();
+        $post_types = get_post_types(array('public' => true), 'names');
+        
         foreach ($post_types as $post_type) {
-            if (isset($input['post_types'][$post_type->name])) {
-                $output['post_types'][$post_type->name] = (int) $input['post_types'][$post_type->name];
+            // Only include valid post types and ensure values are either 0 or 1
+            if (isset($input['post_types'][$post_type])) {
+                $output['post_types'][$post_type] = (int) !!$input['post_types'][$post_type];
+            } else {
+                $output['post_types'][$post_type] = 0;
             }
         }
+    } else {
+        // Default to post and page if no valid input
+        $output['post_types'] = array(
+            'post' => 1,
+            'page' => 1
+        );
     }
     
     return $output;
@@ -180,8 +192,19 @@ function print_button_get_enabled_post_types() {
  */
 function print_button_add_print_link($content) {
     // Don't add print button if we're already on the print page
-    if (isset($_GET['print']) && sanitize_text_field(wp_unslash($_GET['print'])) === 'true') {
-        return $content;
+    if (isset($_GET['print'])) {
+        // Verify nonce if it exists
+        $is_print_page = false;
+        $print_value = sanitize_text_field(wp_unslash($_GET['print']));
+        
+        if ($print_value === 'true') {
+            // We're on a print page, so don't add the print button
+            $is_print_page = true;
+        }
+        
+        if ($is_print_page) {
+            return $content;
+        }
     }
     
     // Get current post type
