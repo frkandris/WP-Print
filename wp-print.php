@@ -23,6 +23,14 @@ if (!defined('WPINC')) {
 define('WP_PRINT_VERSION', '1.0.0');
 
 /**
+ * Load plugin textdomain.
+ */
+function wp_print_load_textdomain() {
+    load_plugin_textdomain('wp-print', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
+add_action('plugins_loaded', 'wp_print_load_textdomain');
+
+/**
  * Add the print link to the end of post content.
  *
  * @param string $content The post content.
@@ -33,7 +41,7 @@ function wp_print_add_print_link($content) {
     if (is_singular() && in_the_loop() && is_main_query()) {
         $print_url = add_query_arg('print', 'true', get_permalink());
         $content .= '<div class="wp-print-link-container">';
-        $content .= '<a href="' . esc_url($print_url) . '" class="wp-print-link" target="_blank">' . __('Print', 'wp-print') . '</a>';
+        $content .= '<a href="' . esc_url($print_url) . '" class="wp-print-link" target="_blank">' . esc_html__('Print', 'wp-print') . '</a>';
         $content .= '</div>';
     }
     return $content;
@@ -64,3 +72,21 @@ function wp_print_enqueue_styles() {
     );
 }
 add_action('wp_enqueue_scripts', 'wp_print_enqueue_styles');
+
+/**
+ * Register activation hook.
+ */
+function wp_print_activate() {
+    // Activation code if needed
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'wp_print_activate');
+
+/**
+ * Register deactivation hook.
+ */
+function wp_print_deactivate() {
+    // Deactivation code if needed
+    flush_rewrite_rules();
+}
+register_deactivation_hook(__FILE__, 'wp_print_deactivate');
