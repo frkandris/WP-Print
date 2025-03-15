@@ -8,7 +8,7 @@
  * Author URI: https://profiles.wordpress.org/frkandris/
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: print-button
+ * Text Domain: Print Button
  * Domain Path: /languages
  */
 
@@ -26,7 +26,7 @@ define('PRINT_BUTTON_VERSION', '1.0.0');
  * Load plugin textdomain.
  */
 function print_button_load_textdomain() {
-    load_plugin_textdomain('print-button', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    load_plugin_textdomain('Print Button', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 add_action('plugins_loaded', 'print_button_load_textdomain');
 
@@ -34,11 +34,13 @@ add_action('plugins_loaded', 'print_button_load_textdomain');
  * Register settings, add options page, and set up settings sections and fields.
  */
 function print_button_settings_init() {
-    // Register settings
+    // Register settings with explicit sanitization
     register_setting(
         'print_button_options',
         'print_button_settings',
         array(
+            'type' => 'array',
+            'description' => 'Print Button plugin settings',
             'sanitize_callback' => 'print_button_sanitize_settings',
             'default' => array(
                 'post_types' => array(
@@ -52,7 +54,7 @@ function print_button_settings_init() {
     // Add settings section
     add_settings_section(
         'print_button_section_post_types',
-        __('Post Types Settings', 'print-button'),
+        __('Post Types Settings', 'Print Button'),
         'print_button_section_post_types_callback',
         'print_button_options'
     );
@@ -60,7 +62,7 @@ function print_button_settings_init() {
     // Add settings field
     add_settings_field(
         'print_button_field_post_types',
-        __('Enable Print Button on:', 'print-button'),
+        __('Enable Print Button on:', 'Print Button'),
         'print_button_field_post_types_callback',
         'print_button_options',
         'print_button_section_post_types'
@@ -73,8 +75,8 @@ add_action('admin_init', 'print_button_settings_init');
  */
 function print_button_add_options_page() {
     add_options_page(
-        __('Print Button Settings', 'print-button'),
-        __('Print Button', 'print-button'),
+        __('Print Button Settings', 'Print Button'),
+        __('Print Button', 'Print Button'),
         'manage_options',
         'print_button_options',
         'print_button_options_page_callback'
@@ -86,7 +88,7 @@ add_action('admin_menu', 'print_button_add_options_page');
  * Callback function for the post types settings section.
  */
 function print_button_section_post_types_callback() {
-    echo '<p>' . esc_html__('Select which post types should display the print button.', 'print-button') . '</p>';
+    echo '<p>' . esc_html__('Select which post types should display the print button.', 'Print Button') . '</p>';
 }
 
 /**
@@ -193,7 +195,7 @@ function print_button_add_print_link($content) {
             get_permalink()
         );
         $content .= '<div class="print-button-link-container">';
-        $content .= '<a href="' . esc_url($print_url) . '" class="print-button-link" target="_blank">' . esc_html__('Print', 'print-button') . '</a>';
+        $content .= '<a href="' . esc_url($print_url) . '" class="print-button-link" target="_blank">' . esc_html__('Print', 'Print Button') . '</a>';
         $content .= '</div>';
     }
     return $content;
@@ -205,9 +207,9 @@ add_filter('the_content', 'print_button_add_print_link');
  */
 function print_button_template_redirect() {
     // Check if we're on a singular page and the print parameter is set
-    if (is_singular() && isset($_GET['print']) && $_GET['print'] === 'true') {
+    if (is_singular() && isset($_GET['print']) && sanitize_text_field(wp_unslash($_GET['print'])) === 'true') {
         // Verify the nonce for security
-        if (isset($_GET['print_nonce']) && wp_verify_nonce($_GET['print_nonce'], 'print_' . get_the_ID())) {
+        if (isset($_GET['print_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['print_nonce'])), 'print_' . get_the_ID())) {
             include(plugin_dir_path(__FILE__) . 'templates/print-template.php');
             exit;
         } else {
