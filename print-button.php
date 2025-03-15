@@ -179,6 +179,11 @@ function print_button_get_enabled_post_types() {
  * @return string The modified post content with print link appended.
  */
 function print_button_add_print_link($content) {
+    // Don't add print button if we're already on the print page
+    if (isset($_GET['print']) && sanitize_text_field(wp_unslash($_GET['print'])) === 'true') {
+        return $content;
+    }
+    
     // Get current post type
     $post_type = get_post_type();
     
