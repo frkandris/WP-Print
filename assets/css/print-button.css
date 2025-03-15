@@ -1,10 +1,10 @@
 /* Print Link Styling */
-.wp-print-link-container {
+.print-button-link-container {
     margin-top: 30px;
     text-align: right;
 }
 
-.wp-print-link {
+.print-button-link {
     display: inline-block;
     padding: 8px 16px;
     background-color: #f7f7f7;
@@ -16,17 +16,17 @@
     transition: all 0.3s ease;
 }
 
-.wp-print-link:hover {
+.print-button-link:hover {
     background-color: #ebebeb;
     color: #000;
 }
 
-.wp-print-link:before {
-    content: "🖨️ ";
+.print-button-link:before {
+    content: " ";
 }
 
 /* Print Template Styling */
-body.wp-print-page {
+body.print-button-page {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
@@ -35,16 +35,16 @@ body.wp-print-page {
     padding: 20px;
 }
 
-.wp-print-page .entry-title {
+.print-button-page .entry-title {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-.wp-print-page .entry-content {
+.print-button-page .entry-content {
     font-size: 16px;
 }
 
-.wp-print-page .print-footer {
+.print-button-page .print-footer {
     margin-top: 30px;
     font-size: 12px;
     color: #666;
@@ -52,7 +52,7 @@ body.wp-print-page {
 }
 
 @media print {
-    .wp-print-page .print-controls {
+    .print-button-page .print-button-controls {
         display: none;
     }
 }

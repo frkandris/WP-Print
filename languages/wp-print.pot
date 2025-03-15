@@ -18,20 +18,8 @@ msgstr ""
 msgid "Print Button"
 msgstr ""
 
-#. Plugin URI of the plugin
-msgid "https://example.com/wp-print"
-msgstr ""
-
 #. Description of the plugin
 msgid "Adds a \"Print\" link to the end of each post, which opens the post in a printer-friendly format."
-msgstr ""
-
-#. Author of the plugin
-msgid "Your Name"
-msgstr ""
-
-#. Author URI of the plugin
-msgid "https://example.com"
 msgstr ""
 
 #: wp-print.php:37
@@ -48,14 +36,6 @@ msgstr ""
 
 #: templates/print-template.php:24
 msgid "Close"
-msgstr ""
-
-#: templates/print-template.php:46
-msgid "Article URL: %s"
-msgstr ""
-
-#: templates/print-template.php:47
-msgid "Copyright \u00A9 %d %s"
 msgstr ""
 
 #: wp-print.php:43

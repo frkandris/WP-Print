@@ -1,9 +1,9 @@
 === Print Button ===
-Contributors: yourwordpressusername
-Donate link: https://example.com/donate
+Contributors: frkandris
+Donate link: https://profiles.wordpress.org/frkandris/
 Tags: print, printer-friendly, posts, pages
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.7
 Stable tag: 1.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
@@ -33,7 +33,7 @@ Print Button is a simple, lightweight plugin that adds a "Print" link at the end
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/wp-print` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/print-button` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. (Optional) Go to Settings > Print Button to configure which post types should display the print button.
 
@@ -45,7 +45,7 @@ The plugin works out of the box with default settings, but you can configure whi
 
 = Can I customize the appearance of the print link? =
 
-Yes, you can customize the appearance by modifying the CSS in the `assets/css/wp-print.css` file.
+Yes, you can customize the appearance by modifying the CSS in the `assets/css/print-button.css` file.
 
 = Will this work with custom post types? =
 
