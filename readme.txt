@@ -1,4 +1,4 @@
-=== WP Print ===
+=== Print Button ===
 Contributors: yourwordpressusername
 Donate link: https://example.com/donate
 Tags: print, printer-friendly, posts, pages
@@ -13,7 +13,7 @@ Add a printer-friendly version link to your WordPress posts and pages.
 
 == Description ==
 
-WP Print is a simple, lightweight plugin that adds a "Print" link at the end of each post and page. When clicked, it opens a clean, printer-friendly version of the content in a new tab, free from headers, sidebars, widgets, and footers.
+Print Button is a simple, lightweight plugin that adds a "Print" link at the end of each post and page. When clicked, it opens a clean, printer-friendly version of the content in a new tab, free from headers, sidebars, widgets, and footers.
 
 = Features =
 
@@ -22,7 +22,7 @@ WP Print is a simple, lightweight plugin that adds a "Print" link at the end of 
 * Provides a "Print This Page" button on the printer-friendly version
 * Removes all unnecessary elements (headers, sidebars, footers, widgets) for clean printing
 * Responsive design that works well on all devices
-* No configuration needed - works out of the box
+* Configurable settings to choose which post types display the print button
 
 = Use Cases =
 
@@ -35,13 +35,13 @@ WP Print is a simple, lightweight plugin that adds a "Print" link at the end of 
 
 1. Upload the plugin files to the `/wp-content/plugins/wp-print` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. That's it! The "Print" link will automatically appear at the end of your posts and pages.
+3. (Optional) Go to Settings > Print Button to configure which post types should display the print button.
 
 == Frequently Asked Questions ==
 
 = Does this plugin require configuration? =
 
-No, WP Print works right out of the box with no configuration needed. Once activated, it automatically adds a "Print" link to all posts and pages.
+The plugin works out of the box with default settings, but you can configure which post types should display the print button by going to Settings > Print Button in your WordPress admin dashboard.
 
 = Can I customize the appearance of the print link? =
 
@@ -49,11 +49,11 @@ Yes, you can customize the appearance by modifying the CSS in the `assets/css/wp
 
 = Will this work with custom post types? =
 
-Yes, the plugin adds the print link to any singular content when viewed on its own page.
+Yes, the plugin can add the print link to any post type. You can select which post types should display the print button in the plugin settings.
 
 = Is this plugin compatible with page builders? =
 
-Yes, WP Print should work with most page builders as it hooks into WordPress's content filter.
+Yes, Print Button should work with most page builders as it hooks into WordPress's content filter.
 
 = Can I change the text of the print link? =
 
@@ -63,17 +63,19 @@ Currently, the link text is set to "Print". You can modify this by editing the p
 
 1. The "Print" link at the end of a post.
 2. The printer-friendly version of a post.
+3. The settings page where you can configure which post types display the print button.
 
 == Changelog ==
 
 = 1.0.0 =
 * Initial release
+* Added settings page to configure which post types display the print button
 
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial release of WP Print plugin.
+Initial release of Print Button plugin with configurable post type settings.
 
 == Privacy Policy ==
 
-WP Print does not collect, store, or share any personal data.
+Print Button does not collect, store, or share any personal data.

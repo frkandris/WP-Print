@@ -9,6 +9,7 @@ A simple WordPress plugin that adds a "Print" link to the end of each post, whic
 - Provides a "Print This Page" button on the printer-friendly version
 - Removes all unnecessary elements (headers, sidebars, footers, widgets) for clean printing
 - Responsive design that works well on all devices
+- Configurable settings to choose which post types display the print button
 
 ## Installation
 
@@ -30,6 +31,16 @@ The printer-friendly version includes:
 - A footer with the post URL and copyright information
 
 Visitors can then use the "Print This Page" button to print the content or close the tab using the "Close" button.
+
+## Settings
+
+The plugin includes a settings page where you can configure which post types should display the print button:
+
+1. Go to Settings > Print Button in your WordPress admin dashboard
+2. Check or uncheck the post types where you want the print button to appear
+3. Click "Save Changes"
+
+By default, the print button is enabled for Posts and Pages.
 
 ## Customization
 

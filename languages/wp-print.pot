@@ -57,3 +57,23 @@ msgstr ""
 #: templates/print-template.php:47
 msgid "Copyright \u00A9 %d %s"
 msgstr ""
+
+#: wp-print.php:43
+msgid "Post Types Settings"
+msgstr ""
+
+#: wp-print.php:51
+msgid "Enable Print Button on:"
+msgstr ""
+
+#: wp-print.php:63
+msgid "Print Button Settings"
+msgstr ""
+
+#: wp-print.php:64
+msgid "Print Button"
+msgstr ""
+
+#: wp-print.php:77
+msgid "Select which post types should display the print button."
+msgstr ""
