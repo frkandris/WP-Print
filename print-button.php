@@ -264,3 +264,16 @@ function print_button_deactivate() {
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'print_button_deactivate');
+
+/**
+ * Add settings link to the plugins page.
+ *
+ * @param array $links Plugin action links.
+ * @return array Modified plugin action links.
+ */
+function print_button_add_settings_link($links) {
+    $settings_link = '<a href="' . admin_url('options-general.php?page=print_button_options') . '">' . esc_html__('Settings', 'Print Button') . '</a>';
+    array_unshift($links, $settings_link);
+    return $links;
+}
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'print_button_add_settings_link');
