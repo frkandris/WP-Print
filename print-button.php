@@ -48,22 +48,11 @@ add_action('plugins_loaded', 'print_button_load_textdomain');
  * Register settings, add options page, and set up settings sections and fields.
  */
 function print_button_settings_init() {
-    // Register settings with explicit sanitization
+    // Register setting with a simple string type
     register_setting(
         'print_button_options',
         'print_button_settings',
-        array(
-            'type'              => 'array',
-            'description'       => 'Print Button plugin settings',
-            'sanitize_callback' => 'print_button_sanitize_settings',
-            'show_in_rest'      => false,
-            'default'           => array(
-                'post_types' => array(
-                    'post' => 1,
-                    'page' => 1
-                )
-            )
-        )
+        'print_button_sanitize_settings'
     );
 
     // Add settings section
@@ -151,7 +140,7 @@ function print_button_options_page_callback() {
 /**
  * Sanitize settings.
  *
- * @param array $input The input settings.
+ * @param mixed $input The input settings.
  * @return array The sanitized settings.
  */
 function print_button_sanitize_settings($input) {
@@ -207,12 +196,16 @@ function print_button_get_enabled_post_types() {
 function print_button_add_print_link($content) {
     // Don't add print button if we're already on the print page
     if (isset($_GET['print'])) {
-        // Verify nonce if it exists
         $is_print_page = false;
         $print_value = sanitize_text_field(wp_unslash($_GET['print']));
         
+        // Check if this is a print page
         if ($print_value === 'true') {
-            // We're on a print page, so don't add the print button
+            // Verify nonce if we're on a print page
+            if (!isset($_GET['print_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['print_nonce'])), 'print_' . get_the_ID())) {
+                // If no valid nonce, we still don't want to show the print button on what appears to be a print page
+                // But we're not going to load the print template either (that's handled in print_button_template_redirect)
+            }
             $is_print_page = true;
         }
         
