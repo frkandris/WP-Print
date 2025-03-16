@@ -1,10 +1,11 @@
 /* Print Link Styling */
 .print-button-link-container {
-    margin-top: 30px;
-    text-align: right;
+    margin: 20px 0;
+    text-align: left;
 }
 
-.print-button-link {
+/* Default button style */
+.print-button-link.print-button-style-default {
     display: inline-block;
     padding: 8px 16px;
     background-color: #f7f7f7;
@@ -16,13 +17,54 @@
     transition: all 0.3s ease;
 }
 
-.print-button-link:hover {
-    background-color: #ebebeb;
-    color: #000;
+.print-button-link.print-button-style-default:hover {
+    background-color: #eaeaea;
+    border-color: #ccc;
 }
 
-.print-button-link:before {
-    content: " ";
+/* Minimal button style */
+.print-button-link.print-button-style-minimal {
+    display: inline-block;
+    padding: 5px 10px;
+    color: #0073aa;
+    text-decoration: none;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.print-button-link.print-button-style-minimal:hover {
+    color: #00a0d2;
+    text-decoration: underline;
+}
+
+/* Prominent button style */
+.print-button-link.print-button-style-prominent {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: #0073aa;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.print-button-link.print-button-style-prominent:hover {
+    background-color: #005f8b;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+/* Custom class support */
+.print-button-link.print-button-style-custom {
+    display: inline-block;
+    /* Basic styling so it's visible even without custom classes */
+    padding: 5px 10px;
+    text-decoration: none;
 }
 
 /* Print Template Styling */
@@ -51,6 +93,7 @@ body.print-button-page {
     text-align: center;
 }
 
+/* Print-specific styles */
 @media print {
     .print-button-page .print-button-controls {
         display: none;

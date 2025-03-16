@@ -58,18 +58,51 @@ function print_button_settings_init() {
     // Add settings section
     add_settings_section(
         'print_button_section_post_types',
-        __('Post Types Settings', 'Print Button'),
+        __('Post Types', 'Print Button'),
         'print_button_section_post_types_callback',
         'print_button_options'
     );
 
-    // Add settings field
+    // Add settings section for button style
+    add_settings_section(
+        'print_button_section_style',
+        __('Button Style', 'Print Button'),
+        'print_button_section_style_callback',
+        'print_button_options'
+    );
+
+    // Get available post types
+    $post_types = get_post_types(array('public' => true), 'objects');
+    
+    // Add settings fields for each post type
+    foreach ($post_types as $post_type) {
+        add_settings_field(
+            'print_button_field_' . $post_type->name,
+            $post_type->label,
+            'print_button_field_post_type_callback',
+            'print_button_options',
+            'print_button_section_post_types',
+            array('post_type' => $post_type->name)
+        );
+    }
+
+    // Add button style field
     add_settings_field(
-        'print_button_field_post_types',
-        __('Enable Print Button on:', 'Print Button'),
-        'print_button_field_post_types_callback',
+        'print_button_field_style',
+        __('Select Style', 'Print Button'),
+        'print_button_field_style_callback',
         'print_button_options',
-        'print_button_section_post_types'
+        'print_button_section_style'
+    );
+
+    // Add custom CSS class field
+    add_settings_field(
+        'print_button_field_custom_class',
+        __('Custom CSS Class', 'Print Button'),
+        'print_button_field_custom_class_callback',
+        'print_button_options',
+        'print_button_section_style',
+        array('class' => 'print-button-custom-class-field')
     );
 }
 add_action('admin_init', 'print_button_settings_init');
@@ -92,28 +125,166 @@ add_action('admin_menu', 'print_button_add_options_page');
  * Callback function for the post types settings section.
  */
 function print_button_section_post_types_callback() {
-    echo '<p>' . esc_html__('Select which post types should display the print button.', 'Print Button') . '</p>';
+    echo '<p>' . esc_html__('Choose which post types should display the print button.', 'Print Button') . '</p>';
 }
 
 /**
- * Callback function for the post types settings field.
+ * Callback function for the post type field.
+ *
+ * @param array $args The field arguments.
  */
-function print_button_field_post_types_callback() {
-    $options = get_option('print_button_settings', array());
-    $post_types = get_post_types(array('public' => true), 'objects');
+function print_button_field_post_type_callback($args) {
+    // Get current settings
+    $options = get_option('print_button_settings');
+    $post_type = $args['post_type'];
     
-    // Set default values for post and page if settings are empty
-    if (empty($options['post_types'])) {
-        $options['post_types'] = array('post' => 1, 'page' => 1);
+    // Check if this post type is enabled
+    $checked = '';
+    if (isset($options['post_types'][$post_type]) && $options['post_types'][$post_type] == 1) {
+        $checked = 'checked="checked"';
     }
     
-    foreach ($post_types as $post_type) {
-        $checked = isset($options['post_types'][$post_type->name]) ? $options['post_types'][$post_type->name] : 0;
+    echo '<input type="checkbox" id="print_button_' . esc_attr($post_type) . '" name="print_button_settings[post_types][' . esc_attr($post_type) . ']" value="1" ' . esc_attr($checked) . ' />';
+    echo '<label for="print_button_' . esc_attr($post_type) . '">' . esc_html__('Enable', 'Print Button') . '</label>';
+}
+
+/**
+ * Callback function for the button style settings section.
+ */
+function print_button_section_style_callback() {
+    echo '<p>' . esc_html__('Choose a style for the print button or set your own custom CSS classes.', 'Print Button') . '</p>';
+}
+
+/**
+ * Callback function for the button style field.
+ */
+function print_button_field_style_callback() {
+    // Get current settings
+    $options = get_option('print_button_settings');
+    $style = isset($options['button_style']) ? $options['button_style'] : 'default';
+    
+    // Style options
+    $styles = array(
+        'default' => __('Default', 'Print Button'),
+        'minimal' => __('Minimal', 'Print Button'),
+        'prominent' => __('Prominent', 'Print Button'),
+        'custom' => __('Custom CSS Class', 'Print Button')
+    );
+    
+    // Display style previews
+    echo '<div class="print-button-style-options">';
+    
+    foreach ($styles as $key => $label) {
+        $checked = ($style === $key) ? 'checked="checked"' : '';
+        
+        echo '<div class="print-button-style-option">';
         echo '<label>';
-        echo '<input type="checkbox" name="print_button_settings[post_types][' . esc_attr($post_type->name) . ']" value="1" ' . checked(1, $checked, false) . '>';
-        echo ' ' . esc_html($post_type->label);
-        echo '</label><br>';
+        echo '<input type="radio" name="print_button_settings[button_style]" value="' . esc_attr($key) . '" ' . esc_attr($checked) . '>';
+        echo '<span>' . esc_html($label) . '</span>';
+        
+        // Show style preview
+        if ($key !== 'custom') {
+            echo '<div class="print-button-preview">';
+            echo '<a href="#" class="print-button-link print-button-style-' . esc_attr($key) . '">' . esc_html__('Print', 'Print Button') . '</a>';
+            echo '</div>';
+        }
+        
+        echo '</label>';
+        echo '</div>';
     }
+    
+    echo '</div>';
+    
+    // Add inline styles for preview
+    echo '<style>
+        .print-button-style-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .print-button-style-option {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background: #f9f9f9;
+            min-width: 150px;
+        }
+        .print-button-preview {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff;
+            border: 1px dashed #ccc;
+        }
+        .print-button-style-default {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #f7f7f7;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        .print-button-style-minimal {
+            display: inline-block;
+            padding: 5px 10px;
+            color: #0073aa;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            background: transparent;
+        }
+        .print-button-style-prominent {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #0073aa;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .print-button-custom-class-field {
+            display: none;
+        }
+        input[value="custom"]:checked ~ .print-button-custom-class-field {
+            display: block;
+        }
+    </style>';
+    
+    // Add script to toggle custom class field visibility
+    echo '<script>
+        jQuery(document).ready(function($) {
+            var updateCustomFieldVisibility = function() {
+                if ($("input[name=\'print_button_settings[button_style]\']:checked").val() === "custom") {
+                    $(".print-button-custom-class-field").show();
+                } else {
+                    $(".print-button-custom-class-field").hide();
+                }
+            };
+            
+            // Initial state
+            updateCustomFieldVisibility();
+            
+            // On change
+            $("input[name=\'print_button_settings[button_style]\']").change(updateCustomFieldVisibility);
+        });
+    </script>';
+}
+
+/**
+ * Callback function for the custom CSS class field.
+ */
+function print_button_field_custom_class_callback() {
+    // Get current settings
+    $options = get_option('print_button_settings');
+    $custom_class = isset($options['custom_class']) ? $options['custom_class'] : '';
+    
+    echo '<input type="text" name="print_button_settings[custom_class]" value="' . esc_attr($custom_class) . '" class="regular-text">';
+    echo '<p class="description">' . esc_html__('Enter custom CSS classes separated by spaces.', 'Print Button') . '</p>';
 }
 
 /**
@@ -165,6 +336,20 @@ function print_button_sanitize_settings($input) {
             'post' => 1,
             'page' => 1
         );
+    }
+    
+    // Sanitize button style
+    if (isset($input['button_style']) && in_array($input['button_style'], array('default', 'minimal', 'prominent', 'custom'))) {
+        $output['button_style'] = $input['button_style'];
+    } else {
+        $output['button_style'] = 'default';
+    }
+    
+    // Sanitize custom CSS class
+    if (isset($input['custom_class'])) {
+        $output['custom_class'] = sanitize_text_field($input['custom_class']);
+    } else {
+        $output['custom_class'] = '';
     }
     
     return $output;
@@ -229,8 +414,24 @@ function print_button_add_print_link($content) {
             ), 
             get_permalink()
         );
+        
+        // Get button style settings
+        $options = get_option('print_button_settings', array());
+        $button_style = isset($options['button_style']) ? $options['button_style'] : 'default';
+        $custom_class = '';
+        
+        // Handle button styling based on selected option
+        if ($button_style === 'custom' && isset($options['custom_class']) && !empty($options['custom_class'])) {
+            // Use custom classes and don't apply predefined styles
+            $button_class = 'print-button-link ' . esc_attr($options['custom_class']);
+        } else {
+            // Use predefined styles
+            $button_class = 'print-button-link print-button-style-' . esc_attr($button_style);
+        }
+        
+        // Add the button to the content
         $content .= '<div class="print-button-link-container">';
-        $content .= '<a href="' . esc_url($print_url) . '" class="print-button-link" target="_blank">' . esc_html__('Print', 'Print Button') . '</a>';
+        $content .= '<a href="' . esc_url($print_url) . '" class="' . $button_class . '" target="_blank">' . esc_html__('Print', 'Print Button') . '</a>';
         $content .= '</div>';
     }
     return $content;
@@ -279,7 +480,9 @@ function print_button_activate() {
         'post_types' => array(
             'post' => 1,
             'page' => 1
-        )
+        ),
+        'button_style' => 'default',
+        'custom_class' => ''
     );
     
     // Only add if the setting doesn't already exist

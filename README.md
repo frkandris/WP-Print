@@ -10,6 +10,8 @@ A simple WordPress plugin that adds a "Print" link to the end of each post, whic
 - Removes all unnecessary elements (headers, sidebars, footers, widgets) for clean printing
 - Responsive design that works well on all devices
 - Configurable settings to choose which post types display the print button
+- Multiple button style options including default, minimal, and prominent designs
+- Option to use custom CSS classes for complete control over button appearance
 
 ## Installation
 
@@ -34,17 +36,31 @@ Visitors can then use the "Print This Page" button to print the content or close
 
 ## Settings
 
-The plugin includes a settings page where you can configure which post types should display the print button:
+The plugin includes a settings page where you can configure various options:
 
 1. Go to Settings > Print Button in your WordPress admin dashboard
-2. Check or uncheck the post types where you want the print button to appear
-3. Click "Save Changes"
+2. Configure which post types should display the print button
+3. Choose from predefined button styles or set your own custom CSS classes
+4. Click "Save Changes"
 
-By default, the print button is enabled for Posts and Pages.
+By default, the print button is enabled for Posts and Pages with the default button style.
+
+### Button Style Options
+
+The plugin offers several button style choices:
+
+- **Default**: Clean, subtle button with light gray background
+- **Minimal**: Simple text link with WordPress blue color
+- **Prominent**: Bold button with WordPress blue background and white text
+- **Custom CSS Classes**: Add your own CSS classes for complete customization
 
 ## Customization
 
-You can customize the appearance of the print link and the printer-friendly version by modifying the CSS in the `assets/css/wp-print.css` file.
+You can customize the appearance of the print link by:
+
+1. Selecting one of the predefined styles in the settings
+2. Adding your own CSS classes in the settings
+3. Modifying the CSS in the `assets/css/print-button.css` file
 
 ## Requirements
 
