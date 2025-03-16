@@ -7,7 +7,7 @@
  * Author URI: https://profiles.wordpress.org/frkandris/
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: Print Button
+ * Text Domain: print-button
  * Domain Path: /languages
  */
 
@@ -40,7 +40,7 @@ define('PRINT_BUTTON_VERSION', '1.0.0');
  * Load plugin textdomain.
  */
 function print_button_load_textdomain() {
-    load_plugin_textdomain('Print Button', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    load_plugin_textdomain('print-button', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
 add_action('plugins_loaded', 'print_button_load_textdomain');
 
@@ -58,7 +58,7 @@ function print_button_settings_init() {
     // Add settings section
     add_settings_section(
         'print_button_section_post_types',
-        __('Post Types', 'Print Button'),
+        __('Post Types', 'print-button'),
         'print_button_section_post_types_callback',
         'print_button_options'
     );
@@ -66,7 +66,7 @@ function print_button_settings_init() {
     // Add settings section for button style
     add_settings_section(
         'print_button_section_style',
-        __('Button Style', 'Print Button'),
+        __('Button Style', 'print-button'),
         'print_button_section_style_callback',
         'print_button_options'
     );
@@ -89,7 +89,7 @@ function print_button_settings_init() {
     // Add button style field
     add_settings_field(
         'print_button_field_style',
-        __('Select Style', 'Print Button'),
+        __('Select Style', 'print-button'),
         'print_button_field_style_callback',
         'print_button_options',
         'print_button_section_style'
@@ -98,7 +98,7 @@ function print_button_settings_init() {
     // Add custom CSS class field
     add_settings_field(
         'print_button_field_custom_class',
-        __('Custom CSS Class', 'Print Button'),
+        __('Custom CSS Class', 'print-button'),
         'print_button_field_custom_class_callback',
         'print_button_options',
         'print_button_section_style',
@@ -112,8 +112,8 @@ add_action('admin_init', 'print_button_settings_init');
  */
 function print_button_add_options_page() {
     add_options_page(
-        __('Print Button Settings', 'Print Button'),
-        __('Print Button', 'Print Button'),
+        __('Print Button Settings', 'print-button'),
+        __('Print Button', 'print-button'),
         'manage_options',
         'print_button_options',
         'print_button_options_page_callback'
@@ -125,7 +125,7 @@ add_action('admin_menu', 'print_button_add_options_page');
  * Callback function for the post types settings section.
  */
 function print_button_section_post_types_callback() {
-    echo '<p>' . esc_html__('Choose which post types should display the print button.', 'Print Button') . '</p>';
+    echo '<p>' . esc_html__('Choose which post types should display the print button.', 'print-button') . '</p>';
 }
 
 /**
@@ -145,14 +145,14 @@ function print_button_field_post_type_callback($args) {
     }
     
     echo '<input type="checkbox" id="print_button_' . esc_attr($post_type) . '" name="print_button_settings[post_types][' . esc_attr($post_type) . ']" value="1" ' . esc_attr($checked) . ' />';
-    echo '<label for="print_button_' . esc_attr($post_type) . '">' . esc_html__('Enable', 'Print Button') . '</label>';
+    echo '<label for="print_button_' . esc_attr($post_type) . '">' . esc_html__('Enable', 'print-button') . '</label>';
 }
 
 /**
  * Callback function for the button style settings section.
  */
 function print_button_section_style_callback() {
-    echo '<p>' . esc_html__('Choose a style for the print button or set your own custom CSS classes.', 'Print Button') . '</p>';
+    echo '<p>' . esc_html__('Choose a style for the print button or set your own custom CSS classes.', 'print-button') . '</p>';
 }
 
 /**
@@ -165,10 +165,10 @@ function print_button_field_style_callback() {
     
     // Style options
     $styles = array(
-        'default' => __('Default', 'Print Button'),
-        'minimal' => __('Minimal', 'Print Button'),
-        'prominent' => __('Prominent', 'Print Button'),
-        'custom' => __('Custom CSS Class', 'Print Button')
+        'default' => __('Default', 'print-button'),
+        'minimal' => __('Minimal', 'print-button'),
+        'prominent' => __('Prominent', 'print-button'),
+        'custom' => __('Custom CSS Class', 'print-button')
     );
     
     // Display style previews
@@ -185,7 +185,7 @@ function print_button_field_style_callback() {
         // Show style preview
         if ($key !== 'custom') {
             echo '<div class="print-button-preview">';
-            echo '<a href="#" class="print-button-link print-button-style-' . esc_attr($key) . '">' . esc_html__('Print', 'Print Button') . '</a>';
+            echo '<a href="#" class="print-button-link print-button-style-' . esc_attr($key) . '">' . esc_html__('Print', 'print-button') . '</a>';
             echo '</div>';
         }
         
@@ -284,16 +284,18 @@ function print_button_field_custom_class_callback() {
     $custom_class = isset($options['custom_class']) ? $options['custom_class'] : '';
     
     echo '<input type="text" name="print_button_settings[custom_class]" value="' . esc_attr($custom_class) . '" class="regular-text">';
-    echo '<p class="description">' . esc_html__('Enter custom CSS classes separated by spaces.', 'Print Button') . '</p>';
+    echo '<p class="description">' . esc_html__('Enter custom CSS classes separated by spaces.', 'print-button') . '</p>';
 }
 
 /**
  * Callback function for the options page.
  */
 function print_button_options_page_callback() {
+    // Check user capabilities
     if (!current_user_can('manage_options')) {
-        return;
+        wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'print-button'));
     }
+    
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -304,6 +306,27 @@ function print_button_options_page_callback() {
             submit_button();
             ?>
         </form>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                function toggleCustomClassField() {
+                    var customClassField = $('#print_button_field_custom_class').parents('tr');
+                    if ($('input[name="print_button_settings[button_style]"]:checked').val() === 'custom') {
+                        customClassField.show();
+                    } else {
+                        customClassField.hide();
+                    }
+                }
+                
+                // Initial state
+                toggleCustomClassField();
+                
+                // On change
+                $('input[name="print_button_settings[button_style]"]').on('change', function() {
+                    toggleCustomClassField();
+                });
+            });
+        </script>
     </div>
     <?php
 }
@@ -431,7 +454,7 @@ function print_button_add_print_link($content) {
         
         // Add the button to the content
         $content .= '<div class="print-button-link-container">';
-        $content .= '<a href="' . esc_url($print_url) . '" class="' . $button_class . '" target="_blank">' . esc_html__('Print', 'Print Button') . '</a>';
+        $content .= '<a href="' . esc_url($print_url) . '" class="' . $button_class . '" target="_blank">' . esc_html__('Print', 'print-button') . '</a>';
         $content .= '</div>';
     }
     return $content;
@@ -439,20 +462,19 @@ function print_button_add_print_link($content) {
 add_filter('the_content', 'print_button_add_print_link');
 
 /**
- * Load the print template when the print parameter is present.
+ * Load the print template if the print parameter is set to true.
  */
 function print_button_template_redirect() {
-    // Check if we're on a singular page and the print parameter is set
-    if (is_singular() && isset($_GET['print']) && sanitize_text_field(wp_unslash($_GET['print'])) === 'true') {
-        // Verify the nonce for security
-        if (isset($_GET['print_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['print_nonce'])), 'print_' . get_the_ID())) {
-            include(plugin_dir_path(__FILE__) . 'templates/print-template.php');
-            exit;
-        } else {
-            // If nonce verification fails, redirect back to the post
-            wp_safe_redirect(get_permalink());
-            exit;
+    // Check if this is a print page
+    if (isset($_GET['print']) && sanitize_text_field(wp_unslash($_GET['print'])) === 'true') {
+        // Verify nonce for security
+        if (!isset($_GET['print_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['print_nonce'])), 'print_' . get_the_ID())) {
+            wp_die(esc_html__('Security check failed. Unable to print this page.', 'print-button'));
         }
+        
+        // Load the print template
+        include(plugin_dir_path(__FILE__) . 'templates/print-template.php');
+        exit();
     }
 }
 add_action('template_redirect', 'print_button_template_redirect');
@@ -510,7 +532,7 @@ register_deactivation_hook(__FILE__, 'print_button_deactivate');
  * @return array Modified plugin action links.
  */
 function print_button_add_settings_link($links) {
-    $settings_link = '<a href="' . admin_url('options-general.php?page=print_button_options') . '">' . esc_html__('Settings', 'Print Button') . '</a>';
+    $settings_link = '<a href="' . admin_url('options-general.php?page=print_button_options') . '">' . esc_html__('Settings', 'print-button') . '</a>';
     array_unshift($links, $settings_link);
     return $links;
 }

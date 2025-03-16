@@ -1,6 +1,5 @@
 === Print Button ===
 Contributors: frkandris
-Donate link: https://profiles.wordpress.org/frkandris/
 Tags: print, printer-friendly, posts, pages
 Requires at least: 5.0
 Tested up to: 6.7
@@ -29,6 +28,7 @@ Print Button is a simple, lightweight plugin that adds a "Print" link at the end
 * Recipe sites where users want to print instructions
 * Educational sites with tutorials or guides
 * News sites with articles readers might want to save in physical form
+* Documentation websites where printed reference materials may be useful
 
 == Installation ==
 

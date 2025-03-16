@@ -3,7 +3,7 @@
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php wp_title('|', true, 'right'); ?> <?php bloginfo('name'); ?> - <?php esc_html_e('Print Version', 'Print Button'); ?></title>
+    <title><?php wp_title('|', true, 'right'); ?> <?php bloginfo('name'); ?> - <?php esc_html_e('Print Version', 'print-button'); ?></title>
     <?php wp_head(); ?>
     <style>
         /* Hide all unnecessary elements when actually printing */
@@ -16,8 +16,8 @@
 </head>
 <body <?php body_class('print-button-page'); ?>>
     <div class="print-button-controls">
-        <button onclick="window.print();" style="padding: 10px 15px; margin: 20px 0; background: #0073aa; color: white; border: none; border-radius: 4px; cursor: pointer;"><?php esc_html_e('Print This Page', 'Print Button'); ?></button>
-        <button onclick="window.close();" style="padding: 10px 15px; margin: 20px 0 20px 10px; background: #f7f7f7; color: #333; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;"><?php esc_html_e('Close', 'Print Button'); ?></button>
+        <button onclick="window.print();" style="padding: 10px 15px; margin: 20px 0; background: #0073aa; color: white; border: none; border-radius: 4px; cursor: pointer;"><?php esc_html_e('Print This Page', 'print-button'); ?></button>
+        <button onclick="window.close();" style="padding: 10px 15px; margin: 20px 0 20px 10px; background: #f7f7f7; color: #333; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;"><?php esc_html_e('Close', 'print-button'); ?></button>
     </div>
 
     <?php while (have_posts()) : the_post(); ?>

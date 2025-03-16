@@ -1,5 +1,0 @@
-This is a placeholder for screenshot-2.png.
-
-For WordPress.org plugin submission, replace this file with an actual screenshot showing the printer-friendly version of a post.
-
-Recommended dimensions: 1544 × 800 pixels
